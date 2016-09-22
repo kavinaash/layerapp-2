@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.example.crypsis.mylayerapplication">
+    <!-- Standard permissions -->
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.WAKE_LOCK"/>
+    <uses-permission android:name="com.google.android.c2dm.permission.RECEIVE"/>
+
+    <!-- Signature-only permissions -->
+    <permission android:name="com.myapp.package.permission.LAYER_PUSH"
+        android:protectionLevel="signature"/>
+    <uses-permission android:name="com.myapp.package.permission.LAYER_PUSH"/>
+    <permission android:name="com.myapp.package.permission.C2D_MESSAGE"
+        android:protectionLevel="signature"/>
+    <uses-permission android:name="com.myapp.package.permission.C2D_MESSAGE"/>
+
+    <!-- LayerClient.sendLogs() permissions -->
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.READ_LOGS"/>
+
+    <application
+        android:allowBackup="true"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:supportsRtl="true"
+        android:theme="@style/AppTheme"
+        android:name=".MyApp">
+        <activity android:name=".LauncherActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity android:name=".MessagesActivity">
+
+        </activity>
+
+        <!-- Your custom "com.layer.sdk.PUSH" notification Receiver -->
+        <!--<receiver android:name=".LayerPushReceiver">-->
+            <!--<intent-filter>-->
+                <!--<action android:name="com.layer.sdk.PUSH"/>-->
+                <!--<category android:name="com.example.crypsis.mylayerapplication"/>-->
+            <!--</intent-filter>-->
+        <!--</receiver>-->
+
+        <!-- Layer's GCM Receiver and Service -->
+        <receiver android:name="com.layer.sdk.services.GcmBroadcastReceiver"
+            android:permission="com.google.android.c2dm.permission.SEND">
+            <intent-filter android:priority="470">
+                <action android:name="com.google.android.c2dm.intent.REGISTRATION"/>
+                <action android:name="com.google.android.c2dm.intent.RECEIVE"/>
+                <action android:name="com.google.android.c2dm.intent.REGISTER"/>
+                <category android:name="com.example.crypsis.mylayerapplication"/>
+            </intent-filter>
+        </receiver>
+        <service android:name="com.layer.sdk.services.GcmIntentService"/>
+    </application>
+
+</manifest>

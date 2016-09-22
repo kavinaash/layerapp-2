@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">My LayerApplication</string>
+    <string name="attachment_menu_camera">Camera</string>
+    <string name="attachment_menu_gallery">Gallery</string>
+    <string name="attachment_menu_location">Location</string>
+    <string name="title_select_conversation">New Message</string>
+</resources>
