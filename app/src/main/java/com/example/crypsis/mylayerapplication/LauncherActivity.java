@@ -41,7 +41,7 @@ public class LauncherActivity extends BaseActivity  {
     public void startConversation() {
         progressBar.setVisibility(View.GONE);
 //        MessagesActivity messagesActivity = new MessagesActivity(this, layerClient);
-        Intent intent=new Intent(LauncherActivity.this,MessagesActivity.class);
+        Intent intent=new Intent(LauncherActivity.this,ConversationListActivity.class);
         startActivity(intent);
     }
 

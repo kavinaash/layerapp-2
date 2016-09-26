@@ -1,11 +1,9 @@
 package com.example.crypsis.mylayerapplication;
 
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
@@ -35,15 +33,10 @@ import com.layer.sdk.messaging.Conversation;
 import com.layer.sdk.messaging.ConversationOptions;
 import com.layer.sdk.messaging.Identity;
 import com.layer.sdk.messaging.LayerObject;
-import com.layer.sdk.messaging.Message;
-import com.layer.sdk.messaging.MessagePart;
 import com.squareup.picasso.Picasso;
 
-import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
-
-import static com.example.crypsis.mylayerapplication.MyApp.layerClient;
 
 
 /**
@@ -85,17 +78,17 @@ public class MessagesActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.messages_layout);
 
-        ConversationOptions conversationOptions=new ConversationOptions().distinct(false);
-        Conversation conversation=(getLayerClient()).newConversationWithUserIds(conversationOptions,"kavi");
-        String messageText = "Hi! How are you";
-        MessagePart messagePart = layerClient.newMessagePart("text/plain", messageText.getBytes());
-        Message message = layerClient.newMessage(Arrays.asList(messagePart));
-        conversation.send(message);
-        final List<Uri> l=layerClient.getConversationIds();
+//        ConversationOptions conversationOptions=new ConversationOptions().distinct(false);
+//        Conversation conversation=(getLayerClient()).newConversationWithUserIds(conversationOptions,"avi");
+//        String messageText = "Hi! How are you";
+//        MessagePart messagePart = layerClient.newMessagePart("text/plain", messageText.getBytes());
+//        Message message = layerClient.newMessage(Arrays.asList(messagePart));
+//        conversation.send(message);
+//        final List<Uri> l=layerClient.getConversationIds();
 
 
 //        List<Conversation> l= layerClient.getConversationsWithParticipants("ZjM1MDkxM2M0MmU2YjI3NQ==","MzJiYTBlNzczMzc5YzU1Nw==");
-        Log.v("convo",l.get(0).toString());
+//        Log.v("convo",l.get(0).toString());
 
         mAddressBar = ((AtlasAddressBar) findViewById(R.id.conversation_launcher))
                 .init(getLayerClient(), getPic())
@@ -110,7 +103,7 @@ public class MessagesActivity extends BaseActivity {
                     @Override
                     public void onParticipantSelectionChanged(AtlasAddressBar addressBar, final List<Identity> participants) {
                         if (participants.isEmpty()) {
-                            setConversation(layerClient.getConversation(l.get(0)), false);
+                            setConversation(null, false);
                             return;
                         }
                         try {
@@ -184,7 +177,7 @@ public class MessagesActivity extends BaseActivity {
         mConversation = conversation;
         mHistoricFetchLayout.setConversation(conversation);
         myMessagesList.setConversation(conversation);
-        mTypingIndicator.setConversation(conversation);
+//        mTypingIndicator.setConversation(conversation);
         mMessageComposer.setConversation(conversation);
 
         // UI state
