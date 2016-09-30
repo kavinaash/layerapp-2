@@ -2,7 +2,10 @@ package com.example.crypsis.mylayerapplication;
 
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.database.Cursor;
+import android.net.Uri;
 import android.os.Bundle;
+import android.provider.ContactsContract;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AlertDialog;
 import android.view.View;
@@ -23,6 +26,7 @@ import com.squareup.picasso.Picasso;
 public class ConversationListActivity extends BaseActivity {
     AtlasConversationsRecyclerView mConversationsList;
     Picasso picasso;
+    private static final int RESULT_PICK_CONTACT = 1;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -78,11 +82,51 @@ public class ConversationListActivity extends BaseActivity {
         findViewById(R.id.floating_action_button)
                 .setOnClickListener(new View.OnClickListener() {
                     public void onClick(View v) {
-                        startActivity(new Intent(ConversationListActivity.this, MessagesActivity.class));
+//                        startActivity(new Intent(ConversationListActivity.this, MessagesActivity.class));
+                        Intent contactPickerIntent= new Intent(Intent.ACTION_PICK, ContactsContract.CommonDataKinds.Phone.CONTENT_URI);
+                        startActivityForResult(contactPickerIntent, RESULT_PICK_CONTACT);
                     }
+
                 });
 
     }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        // check whether the result is ok
+        if (resultCode == RESULT_OK) {
+            // Check for the request code, we might be usign multiple startActivityForReslut
+            switch (requestCode) {
+                case RESULT_PICK_CONTACT:
+                    contactPicked(data);
+                    break;
+            }
+        } else {
+
+        }
+    }
+    /**
+     * Query the Uri and read contact details. Handle the picked contact data.
+     * @param data
+     */
+    private void contactPicked(Intent data) {
+        Cursor cursor = null;
+        try {
+            String name = null;
+            Uri uri = data.getData();
+            cursor = getContentResolver().query(uri, null, null, null, null);
+            cursor.moveToFirst();
+            int  nameIndex =cursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME);
+            name = cursor.getString(nameIndex);
+            Intent intent=new Intent(ConversationListActivity.this,NewConversationActivity.class);
+            intent.putExtra("name",name);
+            startActivity(intent);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
     public Picasso getPic() {
         if (picasso == null) {
             // Picasso with custom RequestHandler for loading from Layer MessageParts.

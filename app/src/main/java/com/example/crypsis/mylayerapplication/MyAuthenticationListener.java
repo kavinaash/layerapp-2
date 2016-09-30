@@ -19,6 +19,7 @@ import org.json.JSONObject;
  */
 public class MyAuthenticationListener implements LayerAuthenticationListener {
     private LauncherActivity myLauncherActivity;
+
     private static final String TAG = MyAuthenticationListener.class.getSimpleName();
 
     public MyAuthenticationListener(LauncherActivity myLauncherActivity) {
@@ -58,7 +59,7 @@ public class MyAuthenticationListener implements LayerAuthenticationListener {
                     post.setEntity(new StringEntity(json.toString()));
 
                     HttpResponse response = (new DefaultHttpClient()).execute(post);
-                    String eit = (new JSONObject(EntityUtils.toString(response.getEntity())))
+                 String eit = (new JSONObject(EntityUtils.toString(response.getEntity())))
                             .optString("identity_token");
 
                     layerClient.answerAuthenticationChallenge(eit);

@@ -38,6 +38,7 @@
 
         </activity>
         <activity android:name=".ConversationListActivity"></activity>
+        <activity android:name=".NewConversationActivity"></activity>
 
         <!-- Your custom "com.layer.sdk.PUSH" notification Receiver -->
         <!--<receiver android:name=".LayerPushReceiver">-->

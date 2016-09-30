@@ -23,6 +23,7 @@ import com.layer.atlas.messagetypes.text.TextSender;
 import com.layer.atlas.messagetypes.threepartimage.CameraSender;
 import com.layer.atlas.messagetypes.threepartimage.GallerySender;
 import com.layer.atlas.messagetypes.threepartimage.ThreePartImageCellFactory;
+import com.layer.atlas.typingindicators.BubbleTypingIndicatorFactory;
 import com.layer.atlas.util.Util;
 import com.layer.atlas.util.picasso.requesthandlers.MessagePartRequestHandler;
 import com.layer.sdk.changes.LayerChange;
@@ -52,43 +53,12 @@ public class MessagesActivity extends BaseActivity {
     private AtlasMessageComposer mMessageComposer;
     private IdentityChangeListener mIdentityChangeListener;
     Picasso picasso;
-//    public MessagesActivity(LauncherActivity launcherActivity, LayerClient layerClient) {
-//        ConversationOptions conversationOptions=new ConversationOptions().distinct(false);
-//        Conversation conversation=layerClient.newConversationWithUserIds(conversationOptions,"kavi");
-//        String messageText = "Hi! How are you";
-//        MessagePart messagePart = layerClient.newMessagePart("text/plain", messageText.getBytes());
-//        Message message = layerClient.newMessage(Arrays.asList(messagePart));
-//        conversation.send(message);
-//        List<Uri> l=layerClient.getConversationIds();
-//
-//
-////        List<Conversation> l= layerClient.getConversationsWithParticipants("ZjM1MDkxM2M0MmU2YjI3NQ==","MzJiYTBlNzczMzc5YzU1Nw==");
-//        Log.v("convo",l.get(0).toString());
-//
-//
-//
-//
-//
-//
-//
-//    }
+
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.messages_layout);
-
-//        ConversationOptions conversationOptions=new ConversationOptions().distinct(false);
-//        Conversation conversation=(getLayerClient()).newConversationWithUserIds(conversationOptions,"avi");
-//        String messageText = "Hi! How are you";
-//        MessagePart messagePart = layerClient.newMessagePart("text/plain", messageText.getBytes());
-//        Message message = layerClient.newMessage(Arrays.asList(messagePart));
-//        conversation.send(message);
-//        final List<Uri> l=layerClient.getConversationIds();
-
-
-//        List<Conversation> l= layerClient.getConversationsWithParticipants("ZjM1MDkxM2M0MmU2YjI3NQ==","MzJiYTBlNzczMzc5YzU1Nw==");
-//        Log.v("convo",l.get(0).toString());
 
         mAddressBar = ((AtlasAddressBar) findViewById(R.id.conversation_launcher))
                 .init(getLayerClient(), getPic())
@@ -171,13 +141,23 @@ public class MessagesActivity extends BaseActivity {
                         }
                     }
                 });
+        mTypingIndicator = new AtlasTypingIndicator(this)
+                .init(getLayerClient())
+                .setTypingIndicatorFactory(new BubbleTypingIndicatorFactory())
+                .setTypingActivityListener(new AtlasTypingIndicator.TypingActivityListener() {
+                    @Override
+                    public void onTypingActivityChange(AtlasTypingIndicator typingIndicator, boolean active) {
+                        myMessagesList.setFooterView(active ? typingIndicator : null);
+                    }
+                });
 
     }
+
     private void setConversation(Conversation conversation, boolean hideLauncher) {
         mConversation = conversation;
         mHistoricFetchLayout.setConversation(conversation);
         myMessagesList.setConversation(conversation);
-//        mTypingIndicator.setConversation(conversation);
+        mTypingIndicator.setConversation(conversation);
         mMessageComposer.setConversation(conversation);
 
         // UI state
@@ -201,13 +181,13 @@ public class MessagesActivity extends BaseActivity {
 
     public Picasso getPic() {
         if (picasso == null) {
-            // Picasso with custom RequestHandler for loading from Layer MessageParts.
             picasso = new Picasso.Builder(this)
                     .addRequestHandler(new MessagePartRequestHandler(getLayerClient()))
                     .build();
         }
         return picasso;
     }
+
     public void setTitle(boolean useConversation) {
         if (!useConversation) {
             setTitle(R.string.title_select_conversation);
@@ -215,12 +195,14 @@ public class MessagesActivity extends BaseActivity {
             setTitle(Util.getConversationTitle(getLayerClient(), mConversation));
         }
     }
+
     private enum UiState {
         ADDRESS,
         ADDRESS_COMPOSER,
         ADDRESS_CONVERSATION_COMPOSER,
         CONVERSATION_COMPOSER
     }
+
     private void setUiState(UiState state) {
         if (mState == state) return;
         mState = state;
@@ -254,10 +236,10 @@ public class MessagesActivity extends BaseActivity {
                 break;
         }
     }
+
     private class IdentityChangeListener implements LayerChangeEventListener.Weak {
         @Override
         public void onChangeEvent(LayerChangeEvent layerChangeEvent) {
-            // Don't need to update title if there is no conversation
             if (mConversation == null) {
                 return;
             }
