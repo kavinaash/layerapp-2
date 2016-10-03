@@ -24,7 +24,10 @@ public class NewUserModel {
 class Metadata{
     String background_color;
 
+    public String getBackground_color() {
+        return background_color;
     }
+}
     List<String> participants;
     boolean distinct;
 

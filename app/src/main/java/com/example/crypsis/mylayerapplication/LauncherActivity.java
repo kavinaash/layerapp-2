@@ -23,9 +23,10 @@ public class LauncherActivity extends BaseActivity  {
         setContentView(R.layout.activity_base);
         progressBar = (ProgressBar) findViewById(R.id.progressbar);
         progressBar.setVisibility(View.VISIBLE);
-       layerClient= getLayerClient();
+        layerClient= getLayerClient();
         layerClient = LayerClient.newInstance(this, LAYER_APP_ID,
-                new LayerClient.Options().googleCloudMessagingSenderId(GCM_SENDER_ID));
+                new LayerClient.Options().useFirebaseCloudMessaging(true));
+//        googleCloudMessagingSenderId(GCM_SENDER_ID));
 
         layerClient.connect();
         MyConnectionListener myConnectionListener = new MyConnectionListener(this);
@@ -47,7 +48,7 @@ public class LauncherActivity extends BaseActivity  {
     }
 
     public String getDeviceID() {
-        return  "avi";
+        return  "kavi";
 //        String androidId = Settings.Secure.getString(getContentResolver(), Settings.Secure.ANDROID_ID);
 //        return Base64.encodeToString(androidId.getBytes(), Base64.NO_WRAP);
     }

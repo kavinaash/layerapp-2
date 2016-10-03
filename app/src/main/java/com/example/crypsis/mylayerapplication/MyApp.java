@@ -35,7 +35,7 @@ public  Context getContext()
     return context;
 }
 
-    public  LayerClient getLayerClient()
+    public static LayerClient getLayerClient()
     {
         return layerClient;
     }

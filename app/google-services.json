@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "24320527281",
+    "firebase_url": "https://mylayerproject-141206.firebaseio.com",
+    "project_id": "mylayerproject-141206",
+    "storage_bucket": "mylayerproject-141206.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:24320527281:android:5c55f9d58f8c9058",
+        "android_client_info": {
+          "package_name": "com.example.crypsis.mylayerapplication"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "24320527281-uf38haf47bdspqdfnl7tg2iiobvdvqi3.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCx3Yp1iRRWh-Hicp4-DuWj__FJHQ1Q8Yw"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
